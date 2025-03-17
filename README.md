@@ -1,15 +1,15 @@
 # Astro Blog System with SQLite/Turso
 
-An Astro blog system powered by SQLite (locally/VPS) or Turso (for serverless deployments).
+An Astro blog CMS system powered by SQLite (locally/VPS) or Turso (for serverless deployments).
 
 ## Features
 
 -   🚀 Ultra-fast performance with local SQLite
+-   🔐 Secure cookie-based sessions
 -   🔄 Seamless transition to serverless with Turso
 -   👤 User authentication with JWT
 -   ✏️ Markdown post editor with preview
 -   📱 Responsive design with Tailwind CSS
--   🔐 Secure cookie-based sessions
 
 ## Getting Started
 
