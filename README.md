@@ -11,6 +11,10 @@ An Astro blog CMS system powered by SQLite (locally/VPS) or Turso (for serverles
 -   ✏️ Markdown post editor with preview
 -   📱 Responsive design with Tailwind CSS
 
+## Preview
+
+<img src="preview.png" />
+
 ## Getting Started
 
 ### Prerequisites
