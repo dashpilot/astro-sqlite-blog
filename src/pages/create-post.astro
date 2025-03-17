@@ -1,0 +1,22 @@
+---
+// src/pages/create-post.astro
+import MainLayout from '../layouts/MainLayout.astro';
+import PostEditor from '../components/PostEditor.svelte';
+
+// Check for any error messages from form submission
+const errors = Astro.url.searchParams.get('error');
+---
+
+<MainLayout title="Create New Post">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Create New Post</h1>
+    
+    {errors && (
+      <div class="bg-red-100 text-red-700 p-4 rounded-md mb-6">
+        There was an error creating your post. Please try again.
+      </div>
+    )}
+    
+    <PostEditor submitUrl="/api/posts/create" client:load />
+  </div>
+</MainLayout>

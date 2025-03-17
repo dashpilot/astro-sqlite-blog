@@ -1,0 +1,35 @@
+---
+// src/pages/blog/[slug].astro
+import MainLayout from '../../layouts/MainLayout.astro';
+import PostDisplay from '../../components/PostDisplay.svelte';
+import { getPostBySlug } from '../../lib/posts';
+
+// Get the post slug from the URL
+const { slug } = Astro.params;
+
+// Get the post
+const post = await getPostBySlug(slug);
+
+// If post not found or not published, redirect to blog index
+if (!post || post.published !== 1) {
+  return Astro.redirect('/blog');
+}
+---
+
+<MainLayout title={post.title}>
+  <div class="max-w-3xl mx-auto">
+    <PostDisplay 
+      title={post.title}
+      content={post.content}
+      author={post.author_name}
+      date={post.created_at}
+      client:load
+    />
+    
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <a href="/blog" class="text-indigo-600 hover:underline">
+        ← Back to all posts
+      </a>
+    </div>
+  </div>
+</MainLayout>

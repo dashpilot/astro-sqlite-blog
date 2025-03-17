@@ -1,0 +1,54 @@
+---
+// src/pages/edit-post/[id].astro
+import MainLayout from '../../layouts/MainLayout.astro';
+import PostEditor from '../../components/PostEditor.svelte';
+import { db } from '../../lib/db';
+
+// Get the post ID from the URL
+const { id } = Astro.params;
+const { user } = Astro.locals;
+
+// Check for any error messages from form submission
+const errors = Astro.url.searchParams.get('error');
+
+// Fetch the post
+let post = null;
+try {
+  const result = await db.execute({
+    sql: `SELECT * FROM posts WHERE id = ? AND user_id = ?`,
+    args: [id, user.id]
+  });
+  
+  if (result.rows.length > 0) {
+    post = result.rows[0];
+  }
+} catch (error) {
+  console.error('Error fetching post:', error);
+}
+
+// If post not found or doesn't belong to user, redirect to dashboard
+if (!post) {
+  return Astro.redirect('/dashboard?error=post-not-found');
+}
+---
+
+<MainLayout title="Edit Post">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Edit Post</h1>
+    
+    {errors && (
+      <div class="bg-red-100 text-red-700 p-4 rounded-md mb-6">
+        There was an error updating your post. Please try again.
+      </div>
+    )}
+    
+    <PostEditor 
+      postId={post.id}
+      initialTitle={post.title}
+      initialContent={post.content}
+      initialPublished={post.published === 1}
+      submitUrl={`/api/posts/update/${post.id}`}
+      client:load
+    />
+  </div>
+</MainLayout>

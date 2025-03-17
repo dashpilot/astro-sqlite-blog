@@ -1,0 +1,61 @@
+---
+// src/layouts/MainLayout.astro
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "An Astro blog with SQLite" } = Astro.props;
+const { isLoggedIn, user } = Astro.locals;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} - Astro Blog</title>
+  </head>
+  <body class="min-h-screen flex flex-col bg-gray-100">
+    <header class="bg-white shadow-sm">
+      <div class="container mx-auto px-4 py-4">
+        <nav class="flex items-center justify-between">
+          <a href="/" class="text-xl font-bold text-indigo-600">Astro Blog</a>
+          <ul class="flex space-x-6">
+            <li><a href="/" class="text-gray-700 hover:text-indigo-600">Home</a></li>
+            <li><a href="/blog" class="text-gray-700 hover:text-indigo-600">Blog</a></li>
+            {isLoggedIn ? (
+              <>
+                <li><a href="/dashboard" class="text-gray-700 hover:text-indigo-600">Dashboard</a></li>
+                <li>
+                  <form action="/api/auth/logout" method="post">
+                    <button type="submit" class="text-gray-700 hover:text-indigo-600">Logout</button>
+                  </form>
+                </li>
+              </>
+            ) : (
+              <>
+                <li><a href="/login" class="text-gray-700 hover:text-indigo-600">Login</a></li>
+                <li><a href="/register" class="text-gray-700 hover:text-indigo-600">Register</a></li>
+              </>
+            )}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    
+    <main class="flex-grow container mx-auto px-4 py-8">
+      <slot />
+    </main>
+    
+    <footer class="bg-white border-t border-gray-200 py-6">
+      <div class="container mx-auto px-4 text-center text-gray-500">
+        &copy; {new Date().getFullYear()} Astro Blog with SQLite. All rights reserved.
+      </div>
+    </footer>
+  </body>
+</html>

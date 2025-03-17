@@ -1,0 +1,25 @@
+/* src/styles/global.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Additional custom styles */
+.prose img {
+    @apply rounded-lg shadow-md;
+}
+
+.prose code {
+    @apply bg-gray-100 px-1 py-0.5 rounded text-sm;
+}
+
+.prose pre {
+    @apply bg-gray-800 text-white p-4 rounded-lg overflow-x-auto;
+}
+
+.prose pre code {
+    @apply bg-transparent text-white px-0 py-0 rounded-none text-sm;
+}
+
+.prose blockquote {
+    @apply border-l-4 border-indigo-200 pl-4 italic;
+}

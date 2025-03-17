@@ -1,0 +1,64 @@
+---
+// src/pages/blog/index.astro
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getAllPosts } from '../../lib/posts';
+
+// Get all published posts
+const posts = await getAllPosts(true);
+---
+
+<MainLayout title="Blog">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8">Blog Posts</h1>
+    
+    {posts.length === 0 ? (
+      <div class="bg-white shadow-md rounded-lg p-8 text-center">
+        <p class="text-lg text-gray-600">No posts have been published yet.</p>
+        <p class="mt-4">
+          <a href="/" class="text-indigo-600 hover:underline">
+            Return to home page
+          </a>
+        </p>
+      </div>
+    ) : (
+      <div class="space-y-8">
+        {posts.map((post) => (
+          <article class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="p-6">
+              <h2 class="text-2xl font-bold mb-2">
+                <a href={`/blog/${post.slug}`} class="text-indigo-600 hover:underline">
+                  {post.title}
+                </a>
+              </h2>
+              
+              <div class="text-sm text-gray-500 mb-4">
+                <span>By {post.author_name}</span>
+                <span class="mx-2">•</span>
+                <time datetime={post.created_at}>
+                  {new Date(post.created_at).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </time>
+              </div>
+              
+              <div class="prose prose-indigo mt-4">
+                <p>
+                  {post.content.substring(0, 280)}
+                  {post.content.length > 280 ? '...' : ''}
+                </p>
+              </div>
+              
+              <div class="mt-4">
+                <a href={`/blog/${post.slug}`} class="text-indigo-600 hover:underline">
+                  Read more →
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+</MainLayout>
